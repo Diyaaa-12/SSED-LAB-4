@@ -1,13 +1,15 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
+﻿from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 
 def simple_interest(principal, rate, years):
+    """Calculate simple interest and round the result to two decimals."""
     return round(principal * rate * years / 100, 2)
 
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
+        """Handle GET requests and return application status as JSON."""
         body = json.dumps({
             "status": "ok",
             "version": "v1",
@@ -16,6 +18,7 @@ class Handler(BaseHTTPRequestHandler):
 
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
 
